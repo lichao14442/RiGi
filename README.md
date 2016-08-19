@@ -1,7 +1,7 @@
 # RiGi
 Matlab Deep Learning Toolbox
 
-The original version is developed in my personal time. If it can help the users, it's great.
+The original version is developed in our personal time. If it can help the users, it's great.
 
 Floders:
  layer: the basic layer, it contents linear, bias, mse, nonlinear,...( it will be fulled with other layers)
