@@ -1,5 +1,5 @@
 function mse_model = mse_cost_set(conf,mse_model)
-% used to set paramters of linear model
+% used to set paramters of mse layer
 % input :
 %       conf: the struct configure
 %       lstmp: the model
