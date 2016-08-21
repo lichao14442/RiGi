@@ -4,36 +4,20 @@ function nnet = nnet_setup(nnet_conf)
 % 20160717 lichao
 %
  
-
-%
-%% input layer
+%% for evary layers
 assert (strcmp(nnet_conf{1}.type, 'input'), 'the first layer type must be input ');
-inmaps_num = 1;
-inputlayer = nnet_conf{1};
-inputlayer.inmaps_num = inmaps_num;
-inputlayer.outmaps_num = inmaps_num;
-inputlayer.outmap_size = inputlayer.inmap_size;
-inputlayer.outdim = inputlayer.indim;
-
-
-
-nnet.layers{1} = inputlayer;
-nnet.struct = 'input';
-% batch_size = inputlayer.batch_size;
-%% for hide layers
 layer_num = numel(nnet_conf);
-for idx_layer = 2 : layer_num   %  layer
-%     if strcmp(nnet_conf{idx_layer}.type, 'conv2d') || strcmp(nnet_conf{idx_layer}.type, 'pool2d') ...
-%             || strcmp(nnet_conf{idx_layer}.type, 'conv2dpack') || strcmp(nnet_conf{idx_layer}.type, 'pool2dpack')%% 2D keep
-%         inmaps_num = nnet.layers{idx_layer-1}.outmaps_num;
-%         inmap_size = nnet.layers{idx_layer-1}.outmap_size;
-%     elseif isfield(nnet_conf{idx_layer}, 'need_convert_dim') && strcmp(nnet_conf{idx_layer}.need_convert_dim, 'true')  % 2D -> 1D
-%         indim = prod(nnet.layers{idx_layer-1}.outmap_size) *  nnet.layers{idx_layer-1}.outmaps_num;
-%     else        % 1D keep
-%         indim = nnet.layers{idx_layer-1}.outdim;  
-%     end
+for idx_layer = 1 : layer_num   %  layer
     
     switch nnet_conf{idx_layer}.type
+        case 'input'
+            input_conf = nnet_conf{idx_layer}; 
+            %
+            input_model = input_set(input_conf);
+            input_model = input_initial(input_model);
+            nnet.layers{idx_layer} = input_model;
+            nnet.struct = 'input';
+            
         case 'conv2d'
             conv2d_conf = nnet_conf{idx_layer}; 
             conv2d_conf.inmaps_num = nnet.layers{idx_layer-1}.outmaps_num;
