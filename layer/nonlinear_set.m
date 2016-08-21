@@ -1,5 +1,5 @@
 function nonlinear_model = nonlinear_set(conf,nonlinear_model)
-% used to set paramters of nonlinear model
+% used to set paramters of linear model
 % input :
 %       conf: the struct configure
 %       lstmp: the model

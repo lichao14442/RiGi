@@ -11,12 +11,14 @@ indim = full_model.indim;
 outdim = full_model.outdim;
 nonlinearity = full_model.nonlinearity;
 need_convert_dim = full_model.need_convert_dim;
+batch_normalized = full_model.batch_normalized;
 
 %% initial for each layer
 affine_conf.indim = indim;
 affine_conf.outdim = outdim;
-affine_conf.name = [full_model.name,'->affine'];
+affine_conf.batch_normalized = batch_normalized;
 affine_conf.need_convert_dim = need_convert_dim;
+affine_conf.name = [full_model.name,'->affine'];
 affine_model = affine_set(affine_conf);
 affine_model = affine_initial(affine_model);
 %
@@ -36,5 +38,5 @@ full_model.layers = layers;
 full_model.type = 'fullcontection';
 full_model.class = 'stack';
 full_model.update = 'true';
-
+affine_model.dim = 1;
 end

@@ -7,14 +7,27 @@ function bias_model = bias_initial(bias_model)
 %lichao 20160717
 
 %% used params to initialize
-outdim = bias_model.outdim;
+indim = bias_model.indim;
+axis_to_norm = bias_model.axis_to_norm;
+inmap_size = bias_model.inmap_size;
+inmaps_num = bias_model.inmaps_num;
 
 %%
-b = single(zeros(outdim, 1));
-db = single(zeros(outdim, 1));
+if axis_to_norm == 0
+    param_dim = indim;
+else
+    param_dim = inmaps_num;
+end
+%%
+b = single(zeros(param_dim, 1));
+db = single(zeros(param_dim, 1));
 
 %% (3) put into the struct
 % 
+bias_model.outdim = indim;
+bias_model.outmap_size = inmap_size;
+bias_model.outmaps_num = inmaps_num;
+bias_model.param_dim = param_dim;
 bias_model.b = b;
 bias_model.db = db;
 bias_model.type = 'bias';
