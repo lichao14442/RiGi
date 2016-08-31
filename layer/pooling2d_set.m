@@ -21,7 +21,7 @@ pool2d_model.scale = conf.scale;
 if isfield(conf,'name')
     pool2d_model.name = conf.name;
 else
-    pool2d_model.name = 'none';
+    pool2d_model.name = 'pooling2d';
 end
 
 if isfield(conf, 'method')

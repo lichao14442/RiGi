@@ -31,5 +31,5 @@ pool2d_model.outmaps_num = inmaps_num;
 pool2d_model.type = 'pool2d';
 pool2d_model.class = 'unit';
 pool2d_model.update = 'false';
-pool2d_model.iscost = 'false';
+pool2d_model.is_cost = 'false';
 end

@@ -15,5 +15,6 @@ function nonlinear_model = nonlinear_initial(nonlinear_model)
 nonlinear_model.type = 'nonlinear';
 nonlinear_model.class = 'unit';
 nonlinear_model.update = 'false';
+nonlinear_model.is_cost = 'false';
 nonlinear_model.dim = 1;
 end

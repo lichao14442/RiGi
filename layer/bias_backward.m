@@ -46,10 +46,10 @@ end
 % (2) process
 db = mean(delta_reshaped, 2);
 if strcmp(optimizer,'sgd')
-    bias_model.db = db;
+    bias_model.dParams{1} = db;
 elseif strcmp(optimizer,'moment')
     alpha = ops.alpha;
-    bias_model.db = alpha .* bias_model.db + db;
+    bias_model.dParams{1} = alpha .* bias_model.dParams{1} + db;
 end
 
 %% output and record

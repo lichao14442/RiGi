@@ -12,18 +12,22 @@ nonlinearity = nonlinear_model.nonlinearity;
  switch nonlinearity
 	case 'sigmoid'
 		h = sigm(x);
+        
 	case 'linear'
 		h = x;
+        
 	case 'softmax'
         h = exp(bsxfun(@minus, x, max(x,[],1)));
         h = bsxfun(@rdivide, h, sum(h, 1)); 
         
      case 'tanh'
          h = tanh(x);
+         
      case 'relu'
          h = max(0, x);
+         
     otherwise
-        error('the type of nonlinearity is UNDIFEND');
+        error('the type of nonlinearity is UNknown');
         
 end
 

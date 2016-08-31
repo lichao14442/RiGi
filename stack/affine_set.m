@@ -20,15 +20,14 @@ affine_model.outdim = conf.outdim;
 if isfield(conf,'name')
     affine_model.name = conf.name;
 else
-    affine_model.name = 'none';
+    affine_model.name = 'affine';
 end
 
-
-if isfield(conf,'need_convert_dim')
-    affine_model.need_convert_dim = conf.need_convert_dim;
-else
-    affine_model.need_convert_dim = 'false';
-end
+% if isfield(conf,'need_convert_dim')
+%     affine_model.need_convert_dim = conf.need_convert_dim;
+% else
+%     affine_model.need_convert_dim = 'false';
+% end
 
 if isfield(conf,'batch_normalized')
     affine_model.batch_normalized = conf.batch_normalized;

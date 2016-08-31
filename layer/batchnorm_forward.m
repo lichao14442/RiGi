@@ -9,8 +9,6 @@ param_dim = batchnorm_model.param_dim;
 outmap_size = batchnorm_model.outmap_size;
 outmaps_num = batchnorm_model.outmaps_num;
 axis_to_norm = batchnorm_model.axis_to_norm;
-gamma = batchnorm_model.gamma;
-beta = batchnorm_model.beta;
 running_mean = batchnorm_model.running_mean;
 running_var = batchnorm_model.running_var;
 running_samples = batchnorm_model.running_samples;
@@ -20,7 +18,8 @@ eval_var = batchnorm_model.eval_var;
 test_mode = batchnorm_model.test_mode;
 bn_eval_stats = batchnorm_model.bn_eval_stats;
 % outdim = batchnorm_model.outdim;
-
+gamma = batchnorm_model.Params{1};
+beta = batchnorm_model.Params{2};
 %% process
 %  feedforward into output perceptrons
 % (1) reshape
@@ -69,8 +68,8 @@ else % not TEST MODE
     if running_iters >= bn_eval_stats
         batchnorm_model.eval_mean = running_mean;
         batchnorm_model.eval_var = running_var;
-        running_mean = single(zeros(param_dim, 1));
-        running_var = single(zeros(param_dim, 1));
+        running_mean = zeros(param_dim, 1);
+        running_var = zeros(param_dim, 1);
         running_samples = 0;
         running_iters = 0;
     end

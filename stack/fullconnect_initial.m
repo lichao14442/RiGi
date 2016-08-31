@@ -38,5 +38,6 @@ full_model.layers = layers;
 full_model.type = 'fullcontection';
 full_model.class = 'stack';
 full_model.update = 'true';
+full_model.is_cost = 'false';
 affine_model.dim = 1;
 end

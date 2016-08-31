@@ -42,4 +42,5 @@ conv2d_model.dk = dk;
 conv2d_model.type = 'conv2d';
 conv2d_model.class = 'unit';
 conv2d_model.update = 'true';
+conv2d_model.is_cost = 'false';
 end
