@@ -18,7 +18,7 @@ bias_model.outdim = conf.indim;
 if isfield(conf,'name')
     bias_model.name = conf.name;
 else
-    bias_model.name = 'none';
+    bias_model.name = 'bias';
 end
 
 if isfield(conf,'need_convert_dim')

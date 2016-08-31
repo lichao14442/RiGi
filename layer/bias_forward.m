@@ -10,7 +10,7 @@ outmap_size = bias_model.outmap_size;
 outmaps_num = bias_model.outmaps_num;
 axis_to_norm = bias_model.axis_to_norm;
 %
-b = bias_model.b;
+b = bias_model.Params{1};
 
 %% process
 %  feedforward into output perceptrons

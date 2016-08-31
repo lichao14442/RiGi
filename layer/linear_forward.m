@@ -5,7 +5,7 @@ function linear_model = linear_forward(linear_model, x)
 % lichao , 20160717
 
 %% params
-W = linear_model.W;
+W = linear_model.Params{1};
 
 %% process
 %  feedforward into output perceptrons

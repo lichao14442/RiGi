@@ -21,5 +21,6 @@ input_model.outdim = indim;
 input_model.type = 'input';
 input_model.class = 'unit';
 input_model.update = 'false';
+input_model.is_cost = 'false';
 
 end

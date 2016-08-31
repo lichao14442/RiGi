@@ -21,6 +21,8 @@ conv2d_model.kernelsize = conf.kernelsize;
     
 if isfield(conf,'name')
     conv2d_model.name = conf.name;
+else
+    conv2d_model.name = 'convolutioned';
 end
 
 if isfield(conf,'need_convert_dim')

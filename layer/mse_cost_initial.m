@@ -15,5 +15,6 @@ function mse_model = mse_cost_initial(mse_model)
 mse_model.type = 'mse-cost';
 mse_model.class = 'unit';
 mse_model.update = 'false';
+mse_model.is_cost = 'true';
 mse_model.dim = 1;
 end

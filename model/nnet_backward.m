@@ -11,7 +11,7 @@ function nnet = nnet_backward(nnet, ops, y)
 layer_num = nnet.layer_num;
 delta = y;
 %%  backprop deltas
-for idx_layer = layer_num : -1 : 2
+for idx_layer = layer_num : -1 : 1
 
     if strcmp(nnet.layers{idx_layer}.class, 'unit') % cost
         nnet.layers{idx_layer} = unit_backward(nnet.layers{idx_layer}, ops, delta);    
@@ -30,9 +30,8 @@ for idx_layer = layer_num : -1 : 2
 %     end
 end
 
-nnet.delta = nnet.layers{2}.delta;
+nnet.delta = nnet.layers{1}.delta;
 nnet.costv = nnet.layers{layer_num}.costv;
 nnet.err = nnet.layers{layer_num}.delta;
-
 
 end

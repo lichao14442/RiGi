@@ -9,6 +9,9 @@ layer_type = unit.type;
 
 %% forward 
 switch layer_type
+    case 'input' % convolustion 2d
+        unit = input_forward(unit, x);
+        
     case 'conv2d' % convolustion 2d
         unit = convolution2d_forward(unit, x);
         

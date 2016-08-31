@@ -24,7 +24,7 @@ end
 if isfield(conf,'name')
     nonlinear_model.name = conf.name;
 else
-    nonlinear_model.name = 'none';
+    nonlinear_model.name = 'nonlinear';
 end
 
 if isfield(conf,'need_convert_dim')

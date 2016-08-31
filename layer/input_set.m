@@ -20,6 +20,6 @@ input_model.inmap_size = conf.inmap_size;
 if isfield(conf,'name')
     input_model.name = conf.name;
 else
-    input_model.name = 'none';
+    input_model.name = 'input';
 end
 

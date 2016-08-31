@@ -12,8 +12,6 @@ outmaps_num = batchnorm_model.outmaps_num;
 axis_to_norm = batchnorm_model.axis_to_norm;
 x = batchnorm_model.x;
 % h = batchnorm_model.h;
-gamma = batchnorm_model.gamma;
-% beta = batchnorm_model.beta;
 % running_mean = batchnorm_model.running_mean;
 % running_var = batchnorm_model.running_var;
 batch_mean = batchnorm_model.batch_mean;
@@ -23,6 +21,7 @@ batch_var = batchnorm_model.batch_var;
 %
 optimizer = ops.optimizer;
 
+gamma = batchnorm_model.Params{1};
 %% backward error
 % (1) reshape
 [indim, batch_size] = size(x);
@@ -97,12 +96,12 @@ dgamma = mean(x_hat,2);
 dbeta = mean(delta_reshaped,2);
 %
 if strcmp(optimizer,'sgd')
-    batchnorm_model.dgamma = dgamma;
-    batchnorm_model.dbeta = dbeta;
+    batchnorm_model.dParams{1} = dgamma;
+    batchnorm_model.dParams{2} = dbeta;
 elseif strcmp(optimizer,'moment')
     alpha = ops.alpha;
-    batchnorm_model.dgamma = alpha .* batchnorm_model.dgamma + dgamma;
-    batchnorm_model.dbeta = alpha .* batchnorm_model.dbeta + dbeta;
+    batchnorm_model.dParams{1} = alpha .* batchnorm_model.dParams{1} + dgamma;
+    batchnorm_model.dParams{2} = alpha .* batchnorm_model.dParams{2} + dbeta;
 end
 
 %% output and record
