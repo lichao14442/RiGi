@@ -11,15 +11,18 @@ indim = linear_model.indim;
 outdim = linear_model.outdim;
 
 %%
-W = single(rand(outdim, indim) - 0.5) * 2 * sqrt(6 / (outdim + indim));
-dW = single(zeros(outdim, indim));
+% W = single(rand(outdim, indim) - 0.5) * 2 * sqrt(6 / (outdim + indim));
+% dW = single(zeros(outdim, indim));
+W = (rand(outdim, indim) - 0.5) * 2 * sqrt(6 / (outdim + indim));
+dW = zeros(outdim, indim);
 
 %% (3) put into the struct
 % 
-linear_model.W = W;
-linear_model.dW = dW;
+linear_model.Params = {W};
+linear_model.dParams = {dW};
 linear_model.type = 'linear';
 linear_model.class = 'unit';
 linear_model.update = 'true';
+linear_model.is_cost = 'false';
 linear_model.dim = 1;
 end

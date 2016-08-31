@@ -20,7 +20,7 @@ ce_model.outdim = conf.indim;
 if isfield(conf,'name')
     ce_model.name = conf.name;
 else
-    ce_model.name = 'none';
+    ce_model.name = 'ce';
 end
 
 if isfield(conf,'need_convert_dim')

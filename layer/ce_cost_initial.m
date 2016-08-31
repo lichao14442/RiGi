@@ -15,5 +15,6 @@ function ce_model = ce_cost_initial(ce_model)
 ce_model.type = 'ce-cost';
 ce_model.class = 'unit';
 ce_model.update = 'false';
+ce_model.is_cost = 'true';
 ce_model.dim = 1;
 end

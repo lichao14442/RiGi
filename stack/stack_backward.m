@@ -25,6 +25,6 @@ for idx_layer = layer_num : -1 : 1
 end
 
 stack.delta = stack.layers{1}.delta;
-
-
+if isfield(stack.layers{layer_num},'costv')
+    stack.costv = stack.layers{layer_num}.costv;
 end

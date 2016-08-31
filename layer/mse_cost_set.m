@@ -19,7 +19,7 @@ mse_model.outdim = conf.indim;
 if isfield(conf,'name')
     mse_model.name = conf.name;
 else
-    mse_model.name = 'none';
+    mse_model.name = 'mse';
 end
 if isfield(conf,'need_convert_dim')
     mse_model.need_convert_dim = conf.need_convert_dim;

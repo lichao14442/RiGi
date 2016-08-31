@@ -41,6 +41,7 @@ affine_model.layers = layers;
 affine_model.type = 'affine';
 affine_model.class = 'stack';
 affine_model.update = 'true';
+affine_model.is_cost = 'false';
 affine_model.dim = 1;
 
 end

@@ -1,4 +1,4 @@
-function full_model = fullconnect_set(conf,full_model)
+function full_model = fullLinear_set(conf,full_model)
 % used to set paramters of linear model
 % input :
 %       conf: the struct configure
@@ -19,13 +19,13 @@ full_model.outdim = conf.outdim;
 if isfield(conf,'nonlinearity')
     full_model.nonlinearity = conf.nonlinearity;
 else
-    full_model.nonlinearity = 'sigmoid';
+    full_model.nonlinearity = 'sigm';
 end
 
 if isfield(conf,'name')
     full_model.name = conf.name;
 else
-    full_model.name = 'none';
+    full_model.name = 'fullconnect';
 end
 
 if isfield(conf,'need_convert_dim')
