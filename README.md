@@ -9,11 +9,11 @@ Email: lichaocasia@163.com
 
 Introduction
 
-SignalGraph is a Matlab-based tool for Deep Learning Toolbox. The original version is developed in our personal time. If it can help the users, it's great.
+RiGi is a Matlab-based tool for Deep Learning Toolbox. The original version is developed in our personal time. If it can help the users, it's great.
 
 
 Floders:
-  layer: the basic layer, it contents linear, bias, mse, nonlinear,...( it will be fulled with other layers) 
+  layer: the basic layer, it contents linear, bias, mse, nonlinear,...( it will be fulled with other layers)\n
   stack: the stack layer, user only need to write the set and initialization M files, the readme.txt will be help. 
   model: used to build model.
   trainer: the trainer.
