@@ -10,7 +10,7 @@ train_x = single(train_x'/255);
 test_x = single(test_x'/255);
 train_y = single(train_y');
 test_y = single(test_y');
-
+nnet_conf.phase = 'train';
 %% (2) initial CNN network
 % ex1 Train a 6c-2s-12c-2s Convolutional neural network
 % modeldir = '';
