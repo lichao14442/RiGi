@@ -1,16 +1,19 @@
-function diff = check_grad(nnet, x, y, sampling_ratio, epsilon)
+function diff = check_grad(nnet, x, y, sampling_ratio, epsilon, verbose)
 % used to check the gradiant of nnet's parameters
 % lichao,20160830
 %
 
 %% £¨0£© default paramters
+
+if nargin < 6
+    verbose = 'true'; 
+end
 if nargin < 5
-     epsilon = single(1e-4);
+     epsilon = 1e-4;
 end
 if nargin < 4
      sampling_ratio = 1.0;
 end
-verbose = 'false'; 
 
 %% (1) get original Params and dParams
 [cost_ori, nnet] = cost_and_gradient(nnet, x, y);
@@ -20,8 +23,8 @@ nnet_ori = nnet;
 index_params = nnet_indexing_params(nnet);
 
 %% (3) 
-diff = single(0.0);
-tot = single(0.0);
+diff = 0.0;
+tot = 0.0;
 count_check = 0;
 for sublayer_count = 1: length(index_params)
     [Params_loc, dParams_loc] = stack_extract_params(nnet, index_params{sublayer_count});
@@ -56,12 +59,11 @@ for sublayer_count = 1: length(index_params)
                 diff = diff + (num_grad - back_grad)^2;
 
                 if strcmp(verbose,'true')
-                    abs_diff = abs(num_grad - back_grad) / abs(back_grad);
-                    if (abs_diff > 1e-5)
-                        disp(['Param:', index_params{sublayer_count}, '::', ...
+                    relative_diff = abs(num_grad - back_grad) / abs(back_grad);
+                    if (relative_diff > epsilon * 1000)
+                        disp(['Param:', index_params{sublayer_count}, '::', num2str(n), ...
                             '(', num2str(i),',',num2str(j),') ', num2str(orig_val)]);
-                        disp(['AbsDiff: ',num2str(abs_diff)]);
-                        disp(['Grad: ',num2str(back_grad),'  NumGrad: ', num2str(num_grad)]);
+                        disp(['relativeDiff: ',num2str(100*relative_diff),'% Grad: ',num2str(back_grad),'  NumGrad: ', num2str(num_grad)]);
                     end
                 end
                 tot = tot + back_grad^2;

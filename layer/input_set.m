@@ -13,10 +13,20 @@ if nargin < 2
 end
 input_model.indim = conf.indim;
 input_model.outdim = conf.indim;
-input_model.inmaps_num = conf.inmaps_num;
-input_model.inmap_size = conf.inmap_size;
 
 %%
+if isfield(conf,'inmap_size')
+    input_model.inmap_size = conf.inmap_size;
+else
+    input_model.inmap_size = [1,1];
+end
+
+if isfield(conf,'inmaps_num')
+    input_model.inmaps_num = conf.inmaps_num;
+else
+    input_model.inmaps_num = conf.indim;
+end
+
 if isfield(conf,'name')
     input_model.name = conf.name;
 else

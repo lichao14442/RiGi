@@ -22,14 +22,14 @@ conv2d_model.kernelsize = conf.kernelsize;
 if isfield(conf,'name')
     conv2d_model.name = conf.name;
 else
-    conv2d_model.name = 'convolutioned';
+    conv2d_model.name = 'convolution2d';
 end
 
-if isfield(conf,'need_convert_dim')
-    conv2d_model.need_convert_dim = conf.need_convert_dim;
-else
-    conv2d_model.need_convert_dim = 'false';
-end
+% if isfield(conf,'need_convert_dim')
+%     conv2d_model.need_convert_dim = conf.need_convert_dim;
+% else
+%     conv2d_model.need_convert_dim = 'false';
+% end
 
 if isfield(conf,'is_same_size')
     conv2d_model.is_same_size = conf.is_same_size;

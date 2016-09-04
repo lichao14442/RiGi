@@ -16,15 +16,22 @@ linear_model.indim = conf.indim;
 linear_model.outdim = conf.outdim;
 
 %%
+if isfield(conf,'inmap_size')
+    linear_model.inmap_size = conf.inmap_size;
+else
+    linear_model.inmap_size = [1,1];
+end
+
+if isfield(conf,'inmaps_num')
+    linear_model.inmaps_num = conf.inmaps_num;
+else
+    linear_model.inmaps_num = conf.indim;
+end
+
 if isfield(conf,'name')
     linear_model.name = conf.name;
 else
-    linear_model.name = 'none';
-end
-if isfield(conf,'need_convert_dim')
-    linear_model.need_convert_dim = conf.need_convert_dim;
-else
-    linear_model.need_convert_dim = 'false';
+    linear_model.name = 'linear';
 end
 
 

@@ -23,9 +23,9 @@ else
     ce_model.name = 'ce';
 end
 
-if isfield(conf,'need_convert_dim')
-    ce_model.need_convert_dim = conf.need_convert_dim;
-else
-    ce_model.need_convert_dim = 'false';
-end
+% if isfield(conf,'need_convert_dim')
+%     ce_model.need_convert_dim = conf.need_convert_dim;
+% else
+%     ce_model.need_convert_dim = 'false';
+% end
 

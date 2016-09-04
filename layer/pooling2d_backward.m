@@ -42,7 +42,7 @@ switch (order)
 end
 
 delta = reshape(delta, size_h);
-delta_in = single(zeros(size_x));
+delta_in = zeros(size_x);
 
 batch_inonemap_size = [inmap_size, num_sample];
 batch_outonemap_size = [outmap_size, num_sample];

@@ -27,7 +27,7 @@ end
 if isfield(conf,'name')
     conv2dpack_model.name = conf.name;
 else
-    conv2dpack_model.name = 'none';
+    conv2dpack_model.name = 'conv2dPack';
 end
 
 if isfield(conf,'batch_normalized')

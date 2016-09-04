@@ -16,10 +16,7 @@ order = conv2d_model.order;
 x = conv2d_model.x;
 % delta = conv2d_model.delta;
 optimizer = ops.optimizer;
-k = conv2d_model.k;
-% b = conv2d_model.b;
-% dk = conv2d_model.dk;
-% db = conv2d_model.db;
+k = reshape(conv2d_model.Params{1},[kernelsize, kernelsize,inmaps_num, outmaps_num]);
 %
 %% backward delta
 %  !!below can probably be handled by insane matrix operations
@@ -36,7 +33,7 @@ switch (order)
 end
 x = reshape(x, size_x);
 delta = reshape(delta, size_h);
-delta_in = single(zeros(size_x));
+delta_in = zeros(size_x);
 
 batch_inonemap_size = [inmap_size, num_sample];
 batch_outonemap_size = [outmap_size, num_sample];
@@ -52,7 +49,7 @@ else
 end
 %
 for i = 1 : inmaps_num
-    z = single(zeros(batch_inonemap_size));
+    z = zeros(batch_inonemap_size);
     for j = 1 :outmaps_num
         switch (order)
             case 'whcn'
@@ -74,8 +71,8 @@ size_x_out = [prod([inmap_size, inmaps_num]), num_sample];
 delta_in = reshape(delta_in,size_x_out);
 
 %% compute giadient
-dk = single(zeros(kernelsize, kernelsize, inmaps_num, outmaps_num));
-% db = single(zeros(1, outmaps_num));
+dk = zeros(kernelsize, kernelsize, inmaps_num, outmaps_num);
+
 for j = 1 : outmaps_num
     switch (order)
         case 'whcn'
@@ -93,21 +90,23 @@ for j = 1 : outmaps_num
         end
         x_loc = reshape(x_loc, batch_inonemap_size);
         if strcmp(is_same_size,'true') % 吧 x 四周变大
-            x_zerosend = single(zeros(batch_inonemap_zerosend_size));
+            x_zerosend = zeros(batch_inonemap_zerosend_size);
             x_zerosend(dimrange_w, dimrange_h, :) = x_loc;
         else
             x_zerosend = reshape(x_loc, batch_inonemap_zerosend_size);
         end
-        dk(:,:,i,j) = convn(flipall(x_zerosend),delta_3d, 'valid') / size(delta_3d, 3);
+%         dk(:,:,i,j) = convn(flipall(x_zerosend),delta_3d, 'valid') / size(delta_3d, 3);
+        dk(:,:,i,j) = convn(flipall(x_zerosend),delta_3d, 'valid');
     end
 %     db(j) = sum(delta_3d(:)) / size(delta_3d, 3);
 end
 if strcmp(optimizer,'sgd')
 %     conv2d_model.db = db;
-    conv2d_model.dk = dk;
+    conv2d_model.dParams{1} = reshape(dk,[kernelsize*kernelsize,inmaps_num*outmaps_num]);
 elseif strcmp(optimizer,'moment')
     alpha = ops.alpha;
-    conv2d_model.dk = alpha .* conv2d_model.dk + dk;
+    conv2d_model.dParams{1} = alpha .* conv2d_model.dParams{1} + ...
+        reshape(dk,[kernelsize*kernelsize,inmaps_num*outmaps_num]);
 %     conv2d_model.db = alpha .* conv2d_model.db + db;
 end
 

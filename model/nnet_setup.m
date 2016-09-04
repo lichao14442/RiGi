@@ -7,6 +7,9 @@ function nnet = nnet_setup(nnet_conf)
 %% for evary layers
 assert (strcmp(nnet_conf{1}.type, 'input'), 'the first layer type must be input ');
 layer_num = numel(nnet_conf);
+fprintf('The information of NNET is :\n');
+fprintf('%s: %8s\t %8s\t %5s\t %5s\t %5s\t %5s\n', 'Lyaer', 'type', 'dim', 'channel',...
+    'weigth', 'height','params');
 for idx_layer = 1 : layer_num   %  layer
     
     switch nnet_conf{idx_layer}.type
@@ -59,15 +62,6 @@ for idx_layer = 1 : layer_num   %  layer
             nnet.layers{idx_layer} = pool2dpack_model;
             nnet.struct = [nnet.struct, ' ', pool2dpack_model.name];
             
-        case 'full'
-            full_conf = nnet_conf{idx_layer};
-            full_conf.indim = nnet.layers{idx_layer-1}.outdim;
-            %
-            full_model = fullLinear_set(full_conf);
-            full_model = fullLinear_initial(full_model);
-            nnet.layers{idx_layer} = full_model;
-            nnet.struct = [nnet.struct, ' ', full_model.name];
-            
         case  'nonlinear'
             nonlinear_conf = nnet_conf{idx_layer};
             nonlinear_conf.indim = nnet.layers{idx_layer-1}.outdim;
@@ -95,6 +89,14 @@ for idx_layer = 1 : layer_num   %  layer
             nnet.layers{idx_layer} = ce_cost_model;
             nnet.struct = [nnet.struct, ' ', ce_cost_model.name];
             
+        case 'cePack'
+            cePack_conf = nnet_conf{idx_layer};
+            cePack_conf.indim = nnet.layers{idx_layer-1}.outdim;
+            %
+            cePack_model = cePackage_set(cePack_conf);
+            cePack_model = cePackage_initial(cePack_model);
+            nnet.layers{idx_layer} = cePack_model;
+            nnet.struct = [nnet.struct, ' ', cePack_model.name];
         case 'mse-cost'
             mse_cost_conf = nnet_conf{idx_layer};
             mse_cost_conf.indim = nnet.layers{idx_layer-1}.outdim;
@@ -124,7 +126,12 @@ for idx_layer = 1 : layer_num   %  layer
         otherwise
             error('the type of layer is UNDIFEND');
     end
-    
+    %% print the information
+    fprintf('[%2d]%12s: %8d\t %5d\t %5d\t %5d\t %5d\n',idx_layer,nnet_conf{idx_layer}.type,...
+        nnet.layers{idx_layer}.outdim, nnet.layers{idx_layer}.outmaps_num,...
+        nnet.layers{idx_layer}.outmap_size(1), nnet.layers{idx_layer}.outmap_size(2),...
+        0);
+
 end
 nnet.layer_num = layer_num;
 end
