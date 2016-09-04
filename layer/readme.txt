@@ -1,18 +1,16 @@
-´´½¨Ò»¸öÍøÂç²ã£º
-	£¨1£©set £º ĞèÒª±äµÄ±äÁ¿ÔÚÕâÀï¸³Öµ
-	£¨2£©initial£º ²»ĞèÒª±äµÄ±äÁ¿ÔÚÕâÀï¸³Öµ£¬Í¬Ê±³õÊ¼»¯¾ØÕó
-	£¨3£©forward£º Ç°Ïò´«²¥ -> Ğ´µ½unit_forwardÀïÃæ
-	£¨4£©backward£º·´Ïò´«²¥ -> Ğ´µ½unit_fbackwardÀïÃæ
-	£¨5£©update£º ²ÎÊı¸üĞÂ -> Ğ´µ½unit_updateÀïÃæ
-	£¨6£©load: load²ÎÊı£¬Èç¹ûÓĞÓĞ±ØÒª£¬Ö÷ÒªÓÃÀ´debugºÍ¶ÏµãĞøÑµ
-	£¨7£©nnet_setup.m£¬ ĞŞ¸ÄËü£¬Ê¹ÆäÈÏÊ¶ĞÂ²ãµÄtype
+åˆ›å»ºä¸€ä¸ªç½‘ç»œå±‚ï¼š
+	ï¼ˆ1ï¼‰set ï¼š éœ€è¦å˜çš„å˜é‡åœ¨è¿™é‡Œèµ‹å€¼
+	ï¼ˆ2ï¼‰initialï¼š ä¸éœ€è¦å˜çš„å˜é‡åœ¨è¿™é‡Œèµ‹å€¼ï¼ŒåŒæ—¶åˆå§‹åŒ–çŸ©é˜µ
+	ï¼ˆ3ï¼‰forwardï¼š å‰å‘ä¼ æ’­ -> å†™åˆ°unit_forwardé‡Œé¢
+	ï¼ˆ4ï¼‰backwardï¼šåå‘ä¼ æ’­ -> å†™åˆ°unit_fbackwardé‡Œé¢
+	ï¼ˆ6ï¼‰load: loadå‚æ•°ï¼Œå¦‚æœæœ‰æœ‰å¿…è¦ï¼Œä¸»è¦ç”¨æ¥debugå’Œæ–­ç‚¹ç»­è®­
+	ï¼ˆ7ï¼‰nnet_setup.mï¼Œ ä¿®æ”¹å®ƒï¼Œä½¿å…¶è®¤è¯†æ–°å±‚çš„type
 	
 Creat a basic layer: need to write 5+ files:
 		(1) xxx_set: set the variable changing in different sampes
 		(2) xxx_initial: set the variable unchanging in different samples, meanwhile, the initial the layer params.
 		(3) xxx_forward: forward. And write into unit_forward.m, meanwhile.
 		(4) xxx_backward: backward. And write into unit_backward.m, meanwhile.
-		(5) xxx_update: update the params. And write into unit_update.m, meanwhile.
 		(+6) xxx_load: load params, used to debug, and retrain from a cutpoit.
 		(7) nnet_setup: modify it in order to known the new layer.
 	
