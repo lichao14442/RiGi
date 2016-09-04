@@ -30,15 +30,6 @@ eval_var = zeros(param_dim, 1);
 running_samples = 0;
 running_iters = 0;
 %% (3) put into the struct
-% if ~isfield(batchnorm_model, 'need_convert_dim')
-%     batchnorm_model.need_convert_dim = 'false';
-% end
-%
-% if ~isfield(batchnorm_model, 'dropoutFraction')
-%     batchnorm_model.dropoutFraction = 0;
-% end
-batchnorm_model.Params = {gamma, beta};
-batchnorm_model.dParams = {dgamma, dbeta};
 
 batchnorm_model.outdim = indim;
 batchnorm_model.outmap_size = inmap_size;
@@ -51,9 +42,11 @@ batchnorm_model.running_iters = running_iters;
 batchnorm_model.eval_mean = eval_mean;
 batchnorm_model.eval_var = eval_var;
 %
+batchnorm_model.Params = {gamma, beta};
+batchnorm_model.dParams = {dgamma, dbeta};
+%
 batchnorm_model.type = 'batchnorm';
 batchnorm_model.class = 'unit';
 batchnorm_model.update = 'true';
 batchnorm_model.is_cost = 'false';
-batchnorm_model.dim = 1;
 end

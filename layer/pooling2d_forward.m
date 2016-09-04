@@ -30,7 +30,7 @@ switch (order)
         error('the M bigger than 10');
 end
 x = reshape(x_2d,size_x);
-h = single(zeros(size_h));
+h = zeros(size_h);
 batch_inonemap_size = [inmap_size, num_sample];
 
 for j = 1 :outmaps_num   %  for each output map
@@ -42,7 +42,7 @@ for j = 1 :outmaps_num   %  for each output map
     end
     x_3d = reshape(x_loc, batch_inonemap_size);
     if strcmp(method,'average')
-        z = convn(x_3d, single(ones(scale)) / scale^2, 'valid');   %  !! replace with variable
+        z = convn(x_3d, ones(scale) / scale^2, 'valid');   %  !! replace with variable
         switch (order)
             case 'whcn'
                 h(:,:,j,:) = z(1 : scale : end, 1 : scale : end, :);
@@ -76,12 +76,12 @@ end
 
 function [z, maps_idxmax] = max_inmaps(x_3d, scale)
     [h, w, num_sample] = size(x_3d);
-    maps_idxmax = single(zeros([h, w, num_sample]));
+    maps_idxmax = zeros([h, w, num_sample]);
     filter_size = [scale, scale];
     h_out = ceil((h - filter_size(1)+1)/scale);
     w_out = ceil((w - filter_size(2)+1)/scale);
     batch_outonemap_size = [h_out, w_out, num_sample];
-    z = single(zeros(batch_outonemap_size));
+    z = zeros(batch_outonemap_size);
     %
     size_loc = [prod(filter_size), num_sample];
     for idx_w = 1: size(z,2)

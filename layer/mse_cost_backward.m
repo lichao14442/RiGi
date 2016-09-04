@@ -7,13 +7,12 @@ function mse_cost_model = mse_cost_backward(mse_cost_model, y)
 %% params
 h = mse_cost_model.h;
 
-%% forward
-% sross entropy
+%% backward
 m = size(y,2); % number of sample
-delta_in = h - y;
+delta_in = (h - y);
 %  loss function
 costv = 1/2* sum(delta_in(:) .^ 2) / m;
-
+delta_in = delta_in / m;
 %% output and record
 mse_cost_model.delta = delta_in;
 mse_cost_model.costv = costv;

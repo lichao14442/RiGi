@@ -62,10 +62,12 @@ d_var = -0.5 * d_var ./(std.^3);
 %
 d_mean = -1 * sum(d_x_hat,2) ./std ;
 d_mean = d_mean - 2* mean(tmp, 2) .* d_var;
-
+% 
 delta_in_reshaped = bsxfun(@rdivide, d_x_hat, std) + 2/batch_size_new .*bsxfun(@times, tmp, d_var);
-% delta_in = bsxfun(@rdivide, d_x_hat, std) + 2/m .*bsxfun(@times,  d_var, tmp);
 delta_in_reshaped = bsxfun(@plus, delta_in_reshaped, d_mean/batch_size_new);
+
+% delta_in_reshaped = bsxfun(@rdivide, d_x_hat, std) + 2 .*bsxfun(@times, tmp, d_var);
+% delta_in_reshaped = bsxfun(@plus, delta_in_reshaped, d_mean);
 
 %(3)reshape back
 if axis_to_norm == 0
@@ -92,8 +94,8 @@ if sum(batch_var) == 0
 end
 
 x_hat = x_hat .* delta_reshaped;
-dgamma = mean(x_hat,2);
-dbeta = mean(delta_reshaped,2);
+dgamma = sum(x_hat,2);
+dbeta = sum(delta_reshaped,2);
 %
 if strcmp(optimizer,'sgd')
     batchnorm_model.dParams{1} = dgamma;

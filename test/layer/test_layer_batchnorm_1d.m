@@ -1,4 +1,4 @@
-function test_layer_ce
+function test_layer_batchnorm_1d
 % to check the gradiant of bias
 % lichao, 20160830
 
@@ -18,24 +18,16 @@ mini_batch = 20;
 % x = single(randn(input_dim, mini_batch));
 % y = single(randn(output_dim, mini_batch));
 x = randn(input_dim, mini_batch);
-
-% Make one-hot vectors (Cross Entropy)
-y_onehot = zeros(output_dim, mini_batch);
-
-for i = 1: mini_batch
-    idx = randi(output_dim);
-    y_onehot(idx, i) = 1.0;
-end
+y = randn(output_dim, mini_batch);
 
 %% build layer
-
-ce_cost_conf.indim = input_dim;
-ce_cost_conf.outdim = output_dim;
-ce_cost_model = ce_cost_set(ce_cost_conf);
-ce_cost_model = ce_cost_initial(ce_cost_model);
+batchnorm_conf.indim = output_dim;
+%
+batchnorm_model = batchnorm_set(batchnorm_conf);
+batchnorm_model = batchnorm_initial(batchnorm_model);
 
 %% check grand
-check_grad_with_dummy(ce_cost_model, x, y_onehot,p);
+check_grad_with_dummy(batchnorm_model, x, y,p);
 
 
 

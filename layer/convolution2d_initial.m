@@ -35,10 +35,8 @@ outdim = prod(outmap_size)*outmaps_num;
 %% (3) put into the struct
 conv2d_model.outdim = outdim;
 conv2d_model.outmap_size = outmap_size;
-conv2d_model.k = k;
-% conv2d_model.b = b;
-conv2d_model.dk = dk;
-% conv2d_model.db = db;
+conv2d_model.Params = {reshape(k,[kernelsize*kernelsize,inmaps_num*outmaps_num])};
+conv2d_model.dParams = {reshape(dk,[kernelsize*kernelsize,inmaps_num*outmaps_num])};
 conv2d_model.type = 'conv2d';
 conv2d_model.class = 'unit';
 conv2d_model.update = 'true';

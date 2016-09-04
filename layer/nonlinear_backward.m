@@ -17,6 +17,7 @@ h = nonlinear_model.h;
 		delta_in = delta;
         
 	case 'softmax'
+        h = log(h);
         D = h.*delta; % D = H .* E (in matlab notation)
         pe_vec = diag(h' * delta); %pe_vec.AddDiagMatMat(1.0, H, kNoTrans, E, kTrans, 0.0);
         delta_in = D - bsxfun(@times, h, pe_vec'); %D = D - diag(pe_vec) * H

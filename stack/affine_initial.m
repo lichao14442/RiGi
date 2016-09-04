@@ -9,13 +9,13 @@ function affine_model = affine_initial(affine_model)
 %% used params to initialize
 indim = affine_model.indim;
 outdim = affine_model.outdim;
-need_convert_dim = affine_model.need_convert_dim;
+% need_convert_dim = affine_model.need_convert_dim;
 batch_normalized = affine_model.batch_normalized;
 %% initial for each layer
 linear_conf.indim = indim;
 linear_conf.outdim = outdim;
 linear_conf.name = [affine_model.name,'->linear'];
-linear_conf.need_convert_dim = need_convert_dim;
+% linear_conf.need_convert_dim = need_convert_dim;
 linear_model = linear_set(linear_conf);
 linear_model = linear_initial(linear_model);
 %
@@ -33,15 +33,9 @@ end
 %
 % set_stack
 layers = {linear_model, bias_model};
-layer_num = numel(layers);
 
 %% (3) put into the struct
-affine_model.layer_num = layer_num;
-affine_model.layers = layers;
+affine_model = stack_build(layers, affine_model);
 affine_model.type = 'affine';
-affine_model.class = 'stack';
-affine_model.update = 'true';
-affine_model.is_cost = 'false';
-affine_model.dim = 1;
 
 end

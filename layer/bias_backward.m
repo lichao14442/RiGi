@@ -11,11 +11,8 @@ outmap_size = bias_model.outmap_size;
 outmaps_num = bias_model.outmaps_num;
 axis_to_norm = bias_model.axis_to_norm;
 
-% h = bias_model.h;
-% x = bias_model.x;
-% delta = bias_model.delta;
 optimizer = ops.optimizer;
-
+% optimizer = 'sgd';
 %% backward error
 
 %% comput gradient
@@ -24,7 +21,7 @@ delta_2d = delta;
 [indim, batch_size] = size(delta);
 if axis_to_norm == 0
     delta_reshaped = delta;
-    batch_size_new = batch_size;
+%     batch_size_new = batch_size;
 else % ONLY support 2 || 3
     batch_size_new = indim/param_dim*batch_size;
     delta_reshaped = zeros(param_dim, batch_size_new);
@@ -44,7 +41,7 @@ else % ONLY support 2 || 3
 end
 
 % (2) process
-db = mean(delta_reshaped, 2);
+db = sum(delta_reshaped, 2);
 if strcmp(optimizer,'sgd')
     bias_model.dParams{1} = db;
 elseif strcmp(optimizer,'moment')

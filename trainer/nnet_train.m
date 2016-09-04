@@ -8,6 +8,7 @@ function nnet = nnet_train(nnet, opts, x, y)
 %% params of train 
 batchsize = opts.batchsize;
 numepochs = opts.numepochs;
+verbose = opts.verbose;
 
 %% training
 num_sample = size(x, 2);
@@ -38,6 +39,25 @@ for i = 1 : numepochs
             nnet.rL(end + 1) = nnet.costv;
             nnet.rL_smooth(end + 1) = 0.95 * nnet.rL_smooth(end) + 0.05 * nnet.costv;
         end
+        %
+        if strcmp(verbose,'true')
+            idx = 1: length(nnet.rL);
+            figure(1); plot(idx, nnet.rL, 'b', idx, nnet.rL_smooth, 'r');
+            box on; grid on;
+            legend('record-cost','smooth-cost');
+        end
+        figure(2);
+        value = norm(nnet.layers{end}.layers{1}.layers{2}.Params{1});
+        dvalue = norm(nnet.layers{end}.layers{1}.layers{2}.dParams{1});
+        plot(length(nnet.rL), value, 'bo',length(nnet.rL), dvalue, 'r*');hold on;
+        
+        figure(3);
+        value = norm(nnet.layers{2}.layers{2}.Params{1});
+        dvalue = norm(nnet.layers{2}.layers{2}.dParams{1});
+        plot(length(nnet.rL), value, 'bo',length(nnet.rL), dvalue, 'r*');hold on;
+%         value = norm(nnet.layers{2}.layers{1}.layers{2}.Params{1});
+%         dvalue = norm(nnet.layers{2}.layers{1}.layers{2}.dParams{1});
+%         plot(length(nnet.rL), value, 'bo',length(nnet.rL), dvalue, 'r*');hold on;
     end
     toc;
 end
