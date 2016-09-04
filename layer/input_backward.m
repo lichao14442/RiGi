@@ -5,6 +5,6 @@ function input_model = input_backward(input_model, ops, delta)
 % lichao , 20160831
 
 %% output and record
-bias_model.delta = delta;
+input_model.delta = delta;
 
 end

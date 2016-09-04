@@ -9,11 +9,10 @@ inmaps_num = conv2d_model.inmaps_num;
 outmaps_num = conv2d_model.outmaps_num;
 inmap_size = conv2d_model.inmap_size;
 outmap_size = conv2d_model.outmap_size;
-% kernelsize = conv2d_model.kernelsize;
+kernelsize = conv2d_model.kernelsize;
 is_same_size = conv2d_model.is_same_size;
 order = conv2d_model.order;
-k = conv2d_model.k;
-% b = conv2d_model.b;
+k = reshape(conv2d_model.Params{1},[kernelsize, kernelsize,inmaps_num, outmaps_num]);
 
 %assert (inmaps_num == size(x, 3), 'the first layer type must be i ');
 %% process
@@ -32,7 +31,7 @@ switch (order)
         error('the M bigger than 10');
 end
 x = reshape(x_2d,size_x);
-h = single(zeros(size_h));
+h = zeros(size_h);
 
 if strcmp(is_same_size,'false')
     ops_conv = 'valid';
@@ -49,7 +48,7 @@ batch_inonemap_size = [inmap_size, num_sample];
 
 for j = 1 :outmaps_num   %  for each output map
     %  create temp output map
-    z = single(zeros(batch_outonemap_size));
+    z = zeros(batch_outonemap_size);
     for i = 1 : inmaps_num   %  for each input map
 %          if strcmp(is_same_size,'true') % 吧 x 四周变大
 %             x_zerosend = single(fillin_value.*ones(batch_inonemap_zerosend_size));

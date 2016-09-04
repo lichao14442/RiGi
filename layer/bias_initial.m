@@ -24,16 +24,17 @@ end
 b = zeros(param_dim, 1);
 db = zeros(param_dim, 1);
 %% (3) put into the struct
-% 
 bias_model.outdim = indim;
 bias_model.outmap_size = inmap_size;
 bias_model.outmaps_num = inmaps_num;
 bias_model.param_dim = param_dim;
+%
 bias_model.Params = {b};
 bias_model.dParams = {db};
+%
 bias_model.type = 'bias';
 bias_model.class = 'unit';
 bias_model.update = 'true';
 bias_model.is_cost = 'false';
-bias_model.dim = 1;
+
 end

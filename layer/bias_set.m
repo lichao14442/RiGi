@@ -15,16 +15,22 @@ bias_model.indim = conf.indim;
 bias_model.outdim = conf.indim;
 
 %%
+if isfield(conf,'inmap_size')
+    bias_model.inmap_size = conf.inmap_size;
+else
+    bias_model.inmap_size = [1,1];
+end
+
+if isfield(conf,'inmaps_num')
+    bias_model.inmaps_num = conf.inmaps_num;
+else
+    bias_model.inmaps_num = conf.indim;
+end
+
 if isfield(conf,'name')
     bias_model.name = conf.name;
 else
     bias_model.name = 'bias';
-end
-
-if isfield(conf,'need_convert_dim')
-    bias_model.need_convert_dim = conf.need_convert_dim;
-else
-    bias_model.need_convert_dim = 'false';
 end
 
 if isfield(conf,'axis_to_norm')
@@ -33,14 +39,3 @@ else
     bias_model.axis_to_norm = 0;
 end
 
-if isfield(conf,'inmap_size')
-    bias_model.inmap_size = conf.inmap_size;
-else
-    bias_model.inmap_size = [conf.indim, 1];
-end
-
-if isfield(conf,'inmaps_num')
-    bias_model.inmaps_num = conf.inmaps_num;
-else
-    bias_model.inmaps_num = 1;
-end

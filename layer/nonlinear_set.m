@@ -12,9 +12,20 @@ if nargin < 2
     nonlinear_model = [];
 end
 nonlinear_model.outdim = conf.indim;
-nonlinear_model.outdim = conf.indim;
-
+  
 %%
+if isfield(conf,'inmap_size')
+    nonlinear_model.inmap_size = conf.inmap_size;
+else
+    nonlinear_model.inmap_size = [1,1];
+end
+
+if isfield(conf,'inmaps_num')
+    nonlinear_model.inmaps_num = conf.inmaps_num;
+else
+    nonlinear_model.inmaps_num = conf.indim;
+end
+
 if isfield(conf,'nonlinearity')
     nonlinear_model.nonlinearity = conf.nonlinearity;
 else
@@ -27,10 +38,5 @@ else
     nonlinear_model.name = 'nonlinear';
 end
 
-if isfield(conf,'need_convert_dim')
-    nonlinear_model.need_convert_dim = conf.need_convert_dim;
-else
-    nonlinear_model.need_convert_dim = 'false';
-end
 
 

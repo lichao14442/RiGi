@@ -16,8 +16,8 @@ W = linear_model.Params{1};
 delta_in = (W' * delta);                   %  feature vector delta
 
 %% comput gradient
-dW = delta * x' / size(delta, 2);
-% dW = delta * x';
+% dW = delta * x' / size(delta, 2);
+dW = delta * x';
 if strcmp(optimizer,'sgd')
     linear_model.dParams{1} = dW;
 elseif strcmp(optimizer,'moment')

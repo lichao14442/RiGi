@@ -35,7 +35,7 @@ switch layer_type
         
     case  'ce-cost' % ce-cost
         unit = ce_cost_forward(unit, x);   
-                
+        
     case  'mse-cost' % mse-cost
         unit = mse_cost_forward(unit, x);   
         

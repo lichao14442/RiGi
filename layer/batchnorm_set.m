@@ -19,6 +19,17 @@ batchnorm_model.outdim = conf.indim;
 % batchnorm_model.model_dir = conf.model_dir;
 
 %%
+if isfield(conf,'inmap_size')
+    batchnorm_model.inmap_size = conf.inmap_size;
+else
+    batchnorm_model.inmap_size = [1,1];
+end
+
+if isfield(conf,'inmaps_num')
+    batchnorm_model.inmaps_num = conf.inmaps_num;
+else
+    batchnorm_model.inmaps_num = conf.indim;
+end
 
 if isfield(conf,'name')
     batchnorm_model.name = conf.name;
@@ -36,18 +47,6 @@ if isfield(conf,'axis_to_norm')
     batchnorm_model.axis_to_norm = conf.axis_to_norm;
 else
     batchnorm_model.axis_to_norm = 0;
-end
-
-if isfield(conf,'inmap_size')
-    batchnorm_model.inmap_size = conf.inmap_size;
-else
-    batchnorm_model.inmap_size = [conf.indim, 1];
-end
-
-if isfield(conf,'inmaps_num')
-    batchnorm_model.inmaps_num = conf.inmaps_num;
-else
-    batchnorm_model.inmaps_num = 1;
 end
 
 if isfield(conf,'test_mode')

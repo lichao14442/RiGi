@@ -4,32 +4,12 @@ function unit = unit_update(unit, ops)
 % lichao , 20160718
 
 %% params
-layer_type = unit.type;
-% unit.layers{1}.a{outmaps_num} = x;
+learningrate = ops.learningrate;
 
-%% update 
-switch layer_type
-    case 'conv2d' % convolustion 2d
-        unit = convolution2d_update(unit,ops);
-        
-    case 'pool2d'  % pooling 2d
-        unit = pooling2d_update(unit,ops);
-        
-    case  'full' % FullLinear
-        unit = fullLinear_update(unit,ops);
-        
-    case  'linear' % linear
-        unit = linear_update(unit,ops);    
-    
-    case  'bias' % bias
-        unit = bias_update(unit,ops);   
-        
-    case  'batchnorm' % bias
-        unit = batchnorm_update(unit,ops);  
-        
-    otherwise
-        error('the type of layer is UNDIFEND');
+%%
+num_params = length(unit.Params);
+for i = 1: num_params
+    unit.Params{i} = unit.Params{i} - learningrate * unit.dParams{i}; 
 end
-
 
 end

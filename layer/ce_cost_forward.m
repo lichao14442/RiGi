@@ -9,7 +9,8 @@ function ce_cost_model = ce_cost_forward(ce_cost_model, x)
 
 %% forward
 % softmax
-h = x;
+h = exp(bsxfun(@minus, x, max(x,[],1)));
+h = bsxfun(@rdivide, h, sum(h, 1)); 
 
 %% output and record
 ce_cost_model.x = x;

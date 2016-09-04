@@ -1,4 +1,4 @@
-function test_layer_ce
+function test_layer_cePack
 % to check the gradiant of bias
 % lichao, 20160830
 
@@ -8,15 +8,13 @@ p.ge_tol = 1e-16;
 p.epsilon = 1e-7;
 p.iterations = 1;
 p.verbose = 'true';
-p.add_linear = 'true';
+p.add_linear = 'flase';
 
 input_dim = 10;
-output_dim = input_dim;
+output_dim = 5;
 mini_batch = 20;
 
 %% input and labels
-% x = single(randn(input_dim, mini_batch));
-% y = single(randn(output_dim, mini_batch));
 x = randn(input_dim, mini_batch);
 
 % Make one-hot vectors (Cross Entropy)
@@ -29,13 +27,13 @@ end
 
 %% build layer
 
-ce_cost_conf.indim = input_dim;
-ce_cost_conf.outdim = output_dim;
-ce_cost_model = ce_cost_set(ce_cost_conf);
-ce_cost_model = ce_cost_initial(ce_cost_model);
+cePack_conf.indim = input_dim;
+cePack_conf.outdim = output_dim;
+cePackage_model = cePackage_set(cePack_conf);
+cePackage_model = cePackage_initial(cePackage_model);
 
 %% check grand
-check_grad_with_dummy(ce_cost_model, x, y_onehot,p);
+check_grad_with_dummy(cePackage_model, x, y_onehot,p);
 
 
 

@@ -27,13 +27,7 @@ end
 if isfield(conf, 'method')
      pool2d_model.method = conf.method;
 else
-    pool2d_model.method = 'average';
-end
-
-if isfield(conf,'need_convert_dim')
-    pool2d_model.need_convert_dim = conf.need_convert_dim;
-else
-    pool2d_model.need_convert_dim = 'false';
+    pool2d_model.method = 'max';
 end
 
 if isfield(conf,'order')

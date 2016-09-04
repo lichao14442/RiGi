@@ -25,13 +25,7 @@ end
 if isfield(conf,'name')
     full_model.name = conf.name;
 else
-    full_model.name = 'none';
-end
-
-if isfield(conf,'need_convert_dim')
-    full_model.need_convert_dim = conf.need_convert_dim;
-else
-    full_model.need_convert_dim = 'false';
+    full_model.name = 'fullcontect';
 end
 
 if isfield(conf,'batch_normalized')

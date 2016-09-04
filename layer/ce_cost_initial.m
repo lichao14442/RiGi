@@ -16,5 +16,5 @@ ce_model.type = 'ce-cost';
 ce_model.class = 'unit';
 ce_model.update = 'false';
 ce_model.is_cost = 'true';
-ce_model.dim = 1;
+% ce_model.dim = 1;
 end

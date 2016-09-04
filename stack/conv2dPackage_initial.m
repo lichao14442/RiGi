@@ -49,24 +49,17 @@ end
 % (3) unlineaer
 nonlinear_conf.indim = outdim;
 nonlinear_conf.nonlinearity = nonlinearity;
+nonlinear_conf.inmaps_num = outmaps_num;
+nonlinear_conf.inmap_size = outmap_size;
 nonlinear_conf.name = [conv2dpack_model.name,'->nonlinear'];
 
 nonlinear_model = nonlinear_set(nonlinear_conf);
 nonlinear_model = nonlinear_initial(nonlinear_model);
 %
 layers = {conv2d_model, biaslayer_model, nonlinear_model};
-% (last) set_stack
-layer_num = numel(layers);
-
 
 %% (3) put into the struct
-conv2dpack_model.outdim = outdim;
-conv2dpack_model.outmap_size = outmap_size;
-conv2dpack_model.layer_num = layer_num;
-conv2dpack_model.layers = layers;
+conv2dpack_model = stack_build(layers, conv2dpack_model);
 conv2dpack_model.type = 'conv2dpack';
-conv2dpack_model.class = 'stack';
-conv2dpack_model.update = 'true';
-conv2dpack_model.is_cost = 'false'; 
 
 end
