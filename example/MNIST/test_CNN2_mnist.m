@@ -1,5 +1,5 @@
 function test_CNN2_mnist
-% the main driver of CNN train and test in the datebase MNIST
+% the main driver of CNN train and test in the datebase MNIST   
 % lichao, 20170717
 
 %% (1) load data
@@ -10,10 +10,11 @@ train_x = single(train_x'/255);
 test_x = single(test_x'/255);
 train_y = single(train_y');
 test_y = single(test_y');
-nnet_conf.phase = 'train';
-%% (2) initial CNN network
+
+%% (2) CNN network config
 % ex1 Train a 6c-2s-12c-2s Convolutional neural network
 % modeldir = '';
+% input data structure
 high = 28;
 wide = 28;
 orimap_size = [high wide];
@@ -22,6 +23,10 @@ outdim = size(train_y, 1);
 % outdim_full = 100;
 rng(0)
 batchsize = 100;
+% nnet
+nnet_conf.phase = 'train';
+nnet_conf.order = 'whcn';
+
 order = 'whcn';
 bn_flag = 'true';
 nonlinearity = 'sigmoid';
@@ -44,9 +49,11 @@ nnet_conf = {
     struct('type', 'cePack','name','ce','outdim', outdim,'batch_normalized',bn_flag) 
 };
 %
+
+%% (2.5) initial CNN network
 cnn = nnet_setup(nnet_conf);
 
-%% (3£©training
+%% (3£©set training option
 % option: 
 opts.batchsize = batchsize;
 opts.numepochs = 1;
@@ -55,6 +62,7 @@ opts.optimizer = 'moment';
 opts.alpha = 0.9; % used when opts.optimizer == 'moment'
 opts.verbose = 'false';
 
+%% (3.5£©set training option
 %will run 1 epoch in about 100 second and get around 6% error. 
 %With 100 epochs you'll get around 1% error
 cnn = nnet_train(cnn, opts, train_x, train_y);
@@ -67,6 +75,7 @@ legend('record-cost','smooth-cost');
 disp(['the mincost is ', num2str(min(cnn.rL))])
 
 %% (4) testing
+nnet_conf.phase = 'test';
 [err_rate, bad] = nnet_test(cnn, opts, test_x, test_y);
 
 disp(['the error rate in test set is ',num2str(err_rate)])
