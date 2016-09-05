@@ -52,16 +52,6 @@ for idx_layer = 1 : layer_num   %  layer
             nnet.layers{idx_layer} = conv2dpack_model;
             nnet.struct = [nnet.struct, ' ', conv2dpack_model.name];
             
-       case 'pool2dpack'
-            pool2dpack_conf = nnet_conf{idx_layer}; 
-            pool2dpack_conf.inmaps_num = nnet.layers{idx_layer-1}.outmaps_num;
-            pool2dpack_conf.inmap_size = nnet.layers{idx_layer-1}.outmap_size;
-            %
-            pool2dpack_model = pool2dPackage_set(pool2dpack_conf);
-            pool2dpack_model = pool2dPackage_initial(pool2dpack_model);
-            nnet.layers{idx_layer} = pool2dpack_model;
-            nnet.struct = [nnet.struct, ' ', pool2dpack_model.name];
-            
         case  'nonlinear'
             nonlinear_conf = nnet_conf{idx_layer};
             nonlinear_conf.indim = nnet.layers{idx_layer-1}.outdim;
