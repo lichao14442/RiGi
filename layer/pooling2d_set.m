@@ -5,7 +5,7 @@ function pool2d_model = pooling2d_set(conf,pool2d_model)
 %       lstmp: the model
 %
 % lichao 20160718
-
+% only support 4d tensor 'whcn' order, 20160915
 
 %conf = struct('type', 'l', 'need_act_h', 1,'clip_gradient',clip_gradient);
 if nargin < 2
@@ -28,11 +28,5 @@ if isfield(conf, 'method')
      pool2d_model.method = conf.method;
 else
     pool2d_model.method = 'max';
-end
-
-if isfield(conf,'order')
-    pool2d_model.order = conf.order;
-else
-    pool2d_model.order = 'whcn';
 end
 

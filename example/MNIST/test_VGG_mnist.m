@@ -28,26 +28,29 @@ batchsize = 100;
 order = 'whcn'; % ONLY support 'whcn' and 'wchn' right now.
 nnet_conf = {
     struct('type', 'input','name','input','inmaps_num',1,'inmap_size', orimap_size,...
-        'indim',prod(orimap_size), 'batch_size',batchsize) %input layer
+        'indim',prod(orimap_size), 'order',order) %input layer
  
     struct('type', 'conv2dpack', 'name','conv1','outmaps_num', 8, 'kernelsize', 3,...
-            'is_same_size',is_same, 'nonlinearity',nonlinearity,'batch_normalized',bn_flag,...
-            'order', order) %convolution layer
+            'is_same_size',is_same, 'nonlinearity',nonlinearity,'batch_normalized',bn_flag) %convolution layer
     struct('type', 'conv2dpack', 'name','conv2','outmaps_num', 8, 'kernelsize', 3,...
-            'is_same_size',is_same, 'nonlinearity',nonlinearity,'batch_normalized',bn_flag,...
-            'order', order) %convolution layer  
+            'is_same_size',is_same, 'nonlinearity',nonlinearity,'batch_normalized',bn_flag) %convolution layer  
             
-    struct('type', 'pool2d', 'name','pool2x2-1','scale', 2,'method','average') %subsampling layer
+    struct('type', 'pool2d', 'name','pool2x2-1','scale', 2,'method','max') %subsampling layer
 
     struct('type', 'conv2dpack', 'name','conv3','outmaps_num', 16, 'kernelsize', 3,...
-            'is_same_size',is_same, 'nonlinearity',nonlinearity,'batch_normalized',bn_flag,...
-            'order', order) %convolution layer
+            'is_same_size',is_same, 'nonlinearity',nonlinearity,'batch_normalized',bn_flag) %convolution layer
     struct('type', 'conv2dpack', 'name','conv4','outmaps_num', 16, 'kernelsize', 3,...
             'is_same_size',is_same, 'nonlinearity',nonlinearity,'batch_normalized',bn_flag,...
             'order', order) %convolution layer  
-
-    struct('type', 'pool2d', 'name','pool2x2-2','scale', 2,'method','average') %subsampling layer
-
+            
+    struct('type', 'pool2d', 'name','pool2x2-2','scale', 2,'method','max') %subsampling layer
+ 
+    struct('type', 'conv2dpack', 'name','conv5','outmaps_num', 32, 'kernelsize', 3,...
+            'is_same_size',is_same, 'nonlinearity',nonlinearity,'batch_normalized',bn_flag) %convolution layer
+    struct('type', 'conv2dpack', 'name','conv6','outmaps_num', 32, 'kernelsize', 3,...
+            'is_same_size',is_same, 'nonlinearity',nonlinearity,'batch_normalized',bn_flag) %convolution layer  
+            
+    struct('type', 'pool2d', 'name','pool2x2-2','scale', 2,'method','max') %subsampling layer
     struct('type', 'cePack','name','ce','outdim', outdim,'batch_normalized',bn_flag) 
 };
 %

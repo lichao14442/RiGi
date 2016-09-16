@@ -22,24 +22,23 @@ outdim = size(train_y, 1);
 % outdim_full = 100;
 rng(0)
 batchsize = 100;
-order = 'whcn';
+order = 'wchn';
 bn_flag = 'true';
-nonlinearity = 'sigmoid';
+nonlinearity = 'relu';
+is_same = 'true';
 nnet_conf = {
     struct('type', 'input','name','input','inmaps_num',1,'inmap_size', orimap_size,...
-        'indim',prod(orimap_size), 'batch_size',batchsize) %input layer
+        'indim',prod(orimap_size), 'batch_size',batchsize,'order', order) %input layer
  
     struct('type', 'conv2dpack', 'name','conv1','outmaps_num', 6, 'kernelsize', 5,...
-            'is_same_size', 'false', 'nonlinearity',nonlinearity,'batch_normalized',bn_flag,...
-            'order', order) %convolution layer
+            'is_same_size',is_same, 'nonlinearity',nonlinearity,'batch_normalized',bn_flag) %convolution layer
 
-    struct('type', 'pool2d', 'name','pool2x2-1','scale', 2,'method','average') %subsampling layer
+    struct('type', 'pool2d', 'name','pool2x2-1','scale', 2,'method','max') %subsampling layer
 
     struct('type', 'conv2dpack', 'name','conv2','outmaps_num', 12, 'kernelsize', 5,...
-            'is_same_size', 'false', 'nonlinearity',nonlinearity,'batch_normalized',bn_flag,...
-            'order', order) %convolution layer
+            'is_same_size', is_same, 'nonlinearity',nonlinearity,'batch_normalized',bn_flag) %convolution layer
 
-    struct('type', 'pool2d', 'name','pool2x2-2','scale', 2,'method','average') %subsampling layer
+    struct('type', 'pool2d', 'name','pool2x2-2','scale', 2,'method','max') %subsampling layer
 
     struct('type', 'cePack','name','ce','outdim', outdim,'batch_normalized',bn_flag) 
 };

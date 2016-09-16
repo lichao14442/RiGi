@@ -42,9 +42,4 @@ else
     conv2dpack_model.is_same_size = 'true';
 end
 
-if isfield(conf,'order')
-    conv2dpack_model.order = conf.order;
-else
-    conv2dpack_model.order = 'whcn';
-end
 

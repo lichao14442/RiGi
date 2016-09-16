@@ -11,7 +11,6 @@ inmap_size = conv2d_model.inmap_size;
 outmap_size = conv2d_model.outmap_size;
 kernelsize = conv2d_model.kernelsize;
 is_same_size = conv2d_model.is_same_size;
-order = conv2d_model.order;
 % h = conv2d_model.h;
 x = conv2d_model.x;
 % delta = conv2d_model.delta;
@@ -19,18 +18,9 @@ optimizer = ops.optimizer;
 k = reshape(conv2d_model.Params{1},[kernelsize, kernelsize,inmaps_num, outmaps_num]);
 %
 %% backward delta
-%  !!below can probably be handled by insane matrix operations
 num_sample = size(delta,2);
-switch (order)
-    case 'whcn'
-        size_x = [inmap_size, inmaps_num, num_sample];
-        size_h = [outmap_size, outmaps_num, num_sample];
-    case 'wchn'
-        size_x = [inmap_size(1), inmaps_num, inmap_size(2), num_sample];
-        size_h = [outmap_size(1), outmaps_num, outmap_size(2), num_sample];
-    otherwise
-        error('the order NOT support right new!');
-end
+size_x = [inmap_size, inmaps_num, num_sample];
+size_h = [outmap_size, outmaps_num, num_sample];
 x = reshape(x, size_x);
 delta = reshape(delta, size_h);
 delta_in = zeros(size_x);
@@ -51,21 +41,11 @@ end
 for i = 1 : inmaps_num
     z = zeros(batch_inonemap_size);
     for j = 1 :outmaps_num
-        switch (order)
-            case 'whcn'
-                delta_loc = delta(:,:,j,:);
-            case 'wchn'
-                delta_loc = delta(:,j,:,:);
-        end
+        delta_loc = delta(:,:,j,:);
         delta_3d = reshape(delta_loc, batch_outonemap_size);
         z = z + convn(delta_3d, rot180(k(:,:,i,j)), ops_conv);
     end
-    switch (order)
-        case 'whcn'
-            delta_in(:,:,i,:) = z;
-        case 'wchn'
-            delta_in(:,i,:,:) = z;
-    end
+    delta_in(:,:,i,:) = z;
 end
 size_x_out = [prod([inmap_size, inmaps_num]), num_sample];
 delta_in = reshape(delta_in,size_x_out);
@@ -74,20 +54,10 @@ delta_in = reshape(delta_in,size_x_out);
 dk = zeros(kernelsize, kernelsize, inmaps_num, outmaps_num);
 
 for j = 1 : outmaps_num
-    switch (order)
-        case 'whcn'
-            delta_loc = delta(:,:,j,:);
-        case 'wchn'
-            delta_loc = delta(:,j,:,:);
-    end
+    delta_loc = delta(:,:,j,:);
     delta_3d = reshape(delta_loc, batch_outonemap_size);
     for i = 1 :inmaps_num
-        switch (order)
-            case 'whcn'
-                x_loc = x(:,:,i,:);
-            case 'wchn'
-                x_loc = x(:,i,:,:);
-        end
+        x_loc = x(:,:,i,:);
         x_loc = reshape(x_loc, batch_inonemap_size);
         if strcmp(is_same_size,'true') % 吧 x 四周变大
             x_zerosend = zeros(batch_inonemap_zerosend_size);

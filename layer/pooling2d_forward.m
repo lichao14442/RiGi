@@ -3,66 +3,39 @@ function pool2d_model = pooling2d_forward(pool2d_model, x)
 % model: 
 % x : input
 % lichao , 20160717
+% only support 4d tensor 'whcn' order, 20160915
 
 %% params
 inmaps_num = pool2d_model.inmaps_num;
 inmap_size = pool2d_model.inmap_size;
 outmaps_num = pool2d_model.outmaps_num;
 outmap_size = pool2d_model.outmap_size;
-order = pool2d_model.order;
 scale = pool2d_model.scale;
 method = pool2d_model.method;
 
-%assert (inmaps_num == size(x, 3), 'the first layer type must be i ');
 %% process
-%  !!below can probably be handled by insane matrix operations
 num_sample = size(x,2);
 
 x_2d = x;
-switch (order)
-    case 'whcn'
-        size_x = [inmap_size, inmaps_num, num_sample];
-        size_h = [outmap_size, outmaps_num, num_sample];
-    case 'wchn'
-        size_x = [inmap_size(1), inmaps_num, inmap_size(2), num_sample];
-        size_h = [outmap_size(1), outmaps_num, outmap_size(2), num_sample];
-    otherwise
-        error('the M bigger than 10');
-end
+size_x = [inmap_size, inmaps_num, num_sample];
+size_h = [outmap_size, outmaps_num, num_sample];
 x = reshape(x_2d,size_x);
 h = zeros(size_h);
 batch_inonemap_size = [inmap_size, num_sample];
 
 for j = 1 :outmaps_num   %  for each output map
-    switch (order)
-        case 'whcn'
-            x_loc = x(:,:,j,:);
-        case 'wchn'
-            x_loc = x(:,j,:,:);
-    end
+    x_loc = x(:,:,j,:);
     x_3d = reshape(x_loc, batch_inonemap_size);
     if strcmp(method,'average')
         z = convn(x_3d, ones(scale) / scale^2, 'valid');   %  !! replace with variable
-        switch (order)
-            case 'whcn'
-                h(:,:,j,:) = z(1 : scale : end, 1 : scale : end, :);
-            case 'wchn'
-                h(:,j,:,:) = z(1 : scale : end, 1 : scale : end, :);
-        end
+        h(:,:,j,:) = z(1 : scale : end, 1 : scale : end, :);
     elseif strcmp(method,'max')
         [z, maps_idxmax] = max_inmaps(x_3d, scale);   %  !! replace with variable
-        switch (order)
-            case 'whcn'
-                pool2d_model.allmaps_idxmax(:,:,j,:) = maps_idxmax;
-                h(:,:,j,:) = z;
-            case 'wchn'
-                pool2d_model.allmaps_idxmax(:,j,:,:) = maps_idxmax;
-                h(:,j,:,:) = z;
-        end
+        pool2d_model.allmaps_idxmax(:,:,j,:) = maps_idxmax;
+        h(:,:,j,:) = z;
     else
        error('the other mothed is not yet supported'); 
     end
-    
 end
 
 size_h_out = [prod([outmap_size, outmaps_num]), num_sample];

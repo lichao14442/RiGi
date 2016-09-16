@@ -21,6 +21,12 @@ else
     input_model.inmap_size = [1,1];
 end
 
+if isfield(conf,'order')
+    input_model.order = conf.order;
+else
+    input_model.order = 'whcn';
+end
+
 if isfield(conf,'inmaps_num')
     input_model.inmaps_num = conf.inmaps_num;
 else

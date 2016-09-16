@@ -22,12 +22,12 @@ outdim = size(train_y, 1);
 % outdim_full = 100;
 rng(0)
 batchsize = 100;
-order = 'wchn';
+order = 'whcn';
 bn_flag = 'true';
 nonlinearity = 'sigmoid';
 nnet_conf = {
     struct('type', 'input','name','input','inmap_size', orimap_size,...
-    'indim',prod(orimap_size), 'batch_size',batchsize) 
+    'indim',prod(orimap_size), 'inmaps_num', 1, 'order',order) 
      struct('type', 'fullconnect','name','full1', 'outdim', 128, 'nonlinearity',nonlinearity,...
             'batch_normalized',bn_flag) 
     struct('type', 'fullconnect','name','full2', 'outdim', 128, 'nonlinearity',nonlinearity,...
