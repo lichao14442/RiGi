@@ -1,2 +1,4 @@
 *.asv
 *.bk
+*.reshape
+*.fig
