@@ -14,8 +14,8 @@ inmap_size = pool2d_model.inmap_size;
 scale = pool2d_model.scale;
 
 %%
-outmap_size = inmap_size ./ scale;
-assert(all(floor(outmap_size)==outmap_size), 'Layer pooling2d size must be integer. Actual: ');
+outmap_size = ceil(inmap_size ./ scale);
+% assert(all(floor(outmap_size)==outmap_size), 'Layer pooling2d size must be integer. Actual: ');
 
 outdim = prod(outmap_size)*inmaps_num;
 %% (3) put into the struct

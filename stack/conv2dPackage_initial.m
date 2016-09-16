@@ -14,7 +14,6 @@ kernelsize = conv2dpack_model.kernelsize;
 is_same_size = conv2dpack_model.is_same_size;
 nonlinearity = conv2dpack_model.nonlinearity;
 batch_normalized = conv2dpack_model.batch_normalized;
-order = conv2dpack_model.order;
 
 %% initial for each layer
 %(1) conv2d
@@ -23,7 +22,6 @@ conv2d_conf.inmap_size = inmap_size;
 conv2d_conf.is_same_size = is_same_size;
 conv2d_conf.kernelsize = kernelsize;
 conv2d_conf.outmaps_num = outmaps_num;
-conv2d_conf.order = order;
 conv2d_conf.name = [conv2dpack_model.name,'->conv2d'];
 
 conv2d_model = convolution2d_set(conv2d_conf);
@@ -35,7 +33,7 @@ outdim = outmaps_num * prod(outmap_size);
 biaslayer_conf.indim = outdim;
 biaslayer_conf.inmaps_num = outmaps_num;
 biaslayer_conf.inmap_size = outmap_size;
-biaslayer_conf.axis_to_norm = strfind(order,'c');
+biaslayer_conf.axis_to_norm = 3;
 if strcmp(batch_normalized,'true')
     biaslayer_conf.name = [conv2dpack_model.name,'->batchnorm'];
     biaslayer_model = batchnorm_set(biaslayer_conf);

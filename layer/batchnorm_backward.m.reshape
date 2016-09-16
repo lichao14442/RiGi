@@ -11,35 +11,47 @@ outmap_size = batchnorm_model.outmap_size;
 outmaps_num = batchnorm_model.outmaps_num;
 axis_to_norm = batchnorm_model.axis_to_norm;
 x = batchnorm_model.x;
+% h = batchnorm_model.h;
+% running_mean = batchnorm_model.running_mean;
+% running_var = batchnorm_model.running_var;
 batch_mean = batchnorm_model.batch_mean;
 batch_var = batchnorm_model.batch_var;
-gamma = batchnorm_model.Params{1};
-%
-go_ops_order = batchnorm_model.go_ops_order;
-back_ops_order = batchnorm_model.back_ops_order;
+% eval_mean = batchnorm_model.eval_mean;
+% eval_var = batchnorm_model.eval_var;
 %
 optimizer = ops.optimizer;
 
+gamma = batchnorm_model.Params{1};
 %% backward error
-%delta_ori = delta; % for debug
+delta_ori = delta;
 % (1) reshape
 [indim, batch_size] = size(x);
 if axis_to_norm == 0
     x_reshaped = x;
     delta_reshaped = delta;
     batch_size_new = batch_size;
-else
-    allmap_size = [outmap_size(1),outmap_size(2),outmaps_num,batch_size];
-    batch_size_new = prod(allmap_size)/param_dim;
-    x = reshape(x,allmap_size);
-    x_orderd = permute(x,go_ops_order);
-    x_reshaped = reshape(x_orderd,param_dim,batch_size_new);  
-    delta = reshape(delta, allmap_size);
-    delta_orderd = permute(delta, go_ops_order);
-    delta_reshaped = reshape(delta_orderd, param_dim, batch_size_new);
-    orderedmap_size = allmap_size(go_ops_order);
+else % ONLY support 2 || 3
+    batch_size_new = indim/param_dim*batch_size;
+    x_reshaped = zeros(param_dim, batch_size_new);
+    delta_reshaped = zeros(param_dim, batch_size_new);
+    if axis_to_norm == 2
+        allmap_size = [outmap_size(1),outmaps_num,outmap_size(2),batch_size];
+        x = reshape(x,allmap_size);
+        delta = reshape(delta,allmap_size);
+        for i = 1: param_dim
+            x_reshaped(i,:) = reshape(x(:,i,:,:),1,batch_size_new);
+            delta_reshaped(i,:) = reshape(delta(:,i,:,:),1,batch_size_new);
+        end
+    elseif axis_to_norm == 3
+        allmap_size = [outmap_size(1),outmap_size(2),outmaps_num,batch_size];
+        x = reshape(x,allmap_size);
+        delta = reshape(delta,allmap_size);
+        for i = 1: param_dim
+            x_reshaped(i,:) = reshape(x(:,:,i,:),1,batch_size_new);
+            delta_reshaped(i,:) = reshape(delta(:,:,i,:),1,batch_size_new);
+        end
+    end
 end
-
 % (2) process
 x_hat = normalize_batch(x_reshaped, batch_mean, batch_var);
 d_x_hat = bsxfun(@times, delta_reshaped, gamma);
@@ -58,13 +70,23 @@ delta_in_reshaped = bsxfun(@plus, delta_in_reshaped, d_mean/batch_size_new);
 % delta_in_reshaped = bsxfun(@rdivide, d_x_hat, std) + 2 .*bsxfun(@times, tmp, d_var);
 % delta_in_reshaped = bsxfun(@plus, delta_in_reshaped, d_mean);
 
-% (3)reshape back
+%(3)reshape back
 if axis_to_norm == 0
     delta_in = delta_in_reshaped;
-else
-    delta_in = reshape(delta_in_reshaped,orderedmap_size);
-    delta_in_ordered = permute(delta_in,back_ops_order);
-    delta_in = reshape(delta_in_ordered,indim, batch_size);
+else % ONLY support 2 || 3
+    delta_in = zeros(allmap_size);
+    if axis_to_norm == 2
+        map_size = [outmap_size(1),1,outmap_size(2),batch_size];
+        for i = 1: param_dim
+            delta_in(:,i,:,:) = reshape(delta_in_reshaped(i,:),map_size);
+        end
+    elseif axis_to_norm == 3
+        map_size = [outmap_size(1),outmap_size(2),1,batch_size];
+        for i = 1: param_dim
+            delta_in(:,:,i,:) = reshape(delta_in_reshaped(i,:),map_size);
+        end
+    end
+    delta_in = reshape(delta_in,indim, batch_size);
 end
 
 %% comput gradient

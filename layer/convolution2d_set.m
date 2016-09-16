@@ -37,10 +37,10 @@ else
     conv2d_model.is_same_size = 'true';
 end
 
-if isfield(conf,'order')
-    conv2d_model.order = conf.order;
-else
-    conv2d_model.order = 'whcn';
-end
+% if isfield(conf,'order')
+%     conv2d_model.order = conf.order;
+% else
+%     conv2d_model.order = 'whcn';
+% end
 
 
